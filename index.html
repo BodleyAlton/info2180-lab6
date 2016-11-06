@@ -1,0 +1,38 @@
+<!Doctype HTML>
+<html>
+<head>
+	<title>Request</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<?php include 'request.php';?>
+</head>
+<body>
+	<h2>Info2180-Lab6</h2>
+	<h6>Dictionary Look up.</h6>
+	<button id="request">Request</button>
+</body>
+<script>
+	$(document).ready(function(){
+		$('#request').on('click',Request);
+	})
+
+	function Request(){
+		var httpRequest = new XMLHttpRequest();
+		var url='request.php';
+		httpRequest.onreadystatechange=Response;
+		httpRequest.open('GET',url);
+		httpRequest.send();
+	}
+
+	function Response(){
+		if (request.readyState === XMLHttpRequest.DONE) {
+	 		if (httpRequest .status === 200) {
+	 			var response = httpRequest .responseText;
+	 			alert(response);
+		 	} 
+		 	else {
+		 		alert('There was a problem with the request.');	 
+		 	}
+		}
+	}
+</script>
+</html>
