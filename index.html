@@ -13,20 +13,20 @@
 <script>
 	$(document).ready(function(){
 		$('#request').on('click',Request);
-	})
+	});
 
 	function Request(){
 		var httpRequest = new XMLHttpRequest();
 		var url='request.php';
 		httpRequest.onreadystatechange=Response;
 		httpRequest.open('GET',url);
-		httpRequest.send();
+		httpRequest.send('definition');
 	}
 
 	function Response(){
-		if (request.readyState === XMLHttpRequest.DONE) {
-	 		if (httpRequest .status === 200) {
-	 			var response = httpRequest .responseText;
+		if (this.readyState === XMLHttpRequest.DONE) {
+	 		if (this .status === 200) {
+	 			var response = this .responseText;
 	 			alert(response);
 		 	} 
 		 	else {
