@@ -3,31 +3,49 @@
 <head>
 	<title>Request</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<?php include 'request.php';?>
 </head>
 <body>
-	<h2>Info2180-Lab6</h2>
-	<h6>Dictionary Look up.</h6>
-	<button id="request">Request</button>
+	<div id=body>
+		<div id=head>
+		<h2>Info2180-Lab6</h2>
+		<h4>Dictionary Look up.</h4>
+		</div>
+		<form>
+			Input:<input id="search" type="text" name="q"/>
+			<!--<input type="submit" value="Submit"/>-->
+			<button id="request" onclick='execute(document.getElementById('search').value)'>Search</button>
+			<h5>Result:</h5>
+			<div id='result'> </div>
+		</form>
+	</div>
 </body>
+<style type="text/css">
+	#body{ width:350px;
+		margin-left:20px;
+		}
+	#head {background-color: yellow;}
+</style>
 <script>
+	//var qu=(document.getElementById('search').value);/*$('#search').value*/
 	$(document).ready(function(){
 		$('#request').on('click',Request);
 	});
 
-	function Request(){
+	function Request(e){
+		e.preventDefault();
 		var httpRequest = new XMLHttpRequest();
-		var url='request.php';
+		var url='request.php?q='+$('#search').val();
 		httpRequest.onreadystatechange=Response;
 		httpRequest.open('GET',url);
-		httpRequest.send('definition');
+		httpRequest.send();
 	}
 
 	function Response(){
 		if (this.readyState === XMLHttpRequest.DONE) {
 	 		if (this .status === 200) {
 	 			var response = this .responseText;
-	 			alert(response);
+	 			$('#search').val('');
+	 			$('#result').html(response);
 		 	} 
 		 	else {
 		 		alert('There was a problem with the request.');	 
