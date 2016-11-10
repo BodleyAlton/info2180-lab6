@@ -13,31 +13,45 @@
 		<form>
 			Input:<input id="search" type="text" name="q"/>
 			<!--<input type="submit" value="Submit"/>-->
-			<button id="request" onclick='execute(document.getElementById('search').value)'>Search</button>
+			<button id="request">Search</button>
+			<br><br><button id="requestall">Search All</button>
 			<h5>Result:</h5>
-			<div id='result'> </div>
+			<div id='result'></div>
 		</form>
 	</div>
 </body>
 <style type="text/css">
-	#body{ width:350px;
-		margin-left:20px;
+	#body{width:350px;
+		margin-left:25px;
+		margin-top:0px;
+		border-top:0px;
+		border:2px solid #c3c1ba;
+		background-color:#e7e4db;
 		}
-	#head {background-color: yellow;}
+	#head {background-color: #9c50a5;
+			color:white;
+			border-top:2px;
+			}
 </style>
 <script>
 	//var qu=(document.getElementById('search').value);/*$('#search').value*/
 	$(document).ready(function(){
 		$('#request').on('click',Request);
+		$('#requestall').on('click',RequestAll);
 	});
 
 	function Request(e){
+		if ($('#search').val()==''){
+			alert ('Please Enter a word');
+		}
+		else{
 		e.preventDefault();
 		var httpRequest = new XMLHttpRequest();
 		var url='request.php?q='+$('#search').val();
 		httpRequest.onreadystatechange=Response;
 		httpRequest.open('GET',url);
 		httpRequest.send();
+		}
 	}
 
 	function Response(){
@@ -51,6 +65,22 @@
 		 		alert('There was a problem with the request.');	 
 		 	}
 		}
+	}
+	
+	function RequestAll(e){
+		e.preventDefault();
+		$.ajax('request.php',{
+			method:'GET',
+			dataType: 'xml'
+		}).done(function(response){
+			var dict =$(response).find('word');
+			$('#result').append("<ol></ol>");
+			$(dict).each(function(){
+				$('#result ol').append('<li>'+ '<strong>'+$(this).find('sr').text()+'</strong>' +'<br>'+$(this).find('defn').text()+'</li>');
+			});
+		}).fail(function(){
+			alert('There was a problem with the request.');
+		});
 	}
 </script>
 </html>
