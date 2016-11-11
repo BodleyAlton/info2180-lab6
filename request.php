@@ -45,14 +45,12 @@ $xmldef = '<?xml version="1.0" encoding="UTF-8"?>
             <defn>A server-side scripting language, and a powerful tool for making dynamic and interactive websites</defn>
         </word>
     </dict>';
-if(! $query==''){
-    print "<h3>" . strtoupper($query) . "</h3>";
-    print "<p>" . $definition[$query] . "</p>";
-}
-else{
+if (isset($_GET['all']) && $_GET['all'] == 'true') {
+   // output your XML
     header('Content-Type: text/xml');
     $output = new SimpleXMLElement($xmldef);
     echo $output->asXML();
+} else { 
+    print "<h3>" . strtoupper($query) . "</h3>";
+    print "<p>" . $definition[$query] . "</p>"; 
 }
-
-
